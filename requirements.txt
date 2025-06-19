@@ -1,0 +1,18 @@
+Flask==2.3.3
+Flask-Cors==4.0.0
+python-dotenv==1.0.1
+psycopg2-binary==2.9.9
+
+# ✅ Compatible Langchain stack
+langchain==0.2.3
+langchain-core==0.2.41
+langchain-ollama==0.1.3
+
+# 🔥 Optional OpenAI support (used directly via `openai` lib)
+openai==1.30.1
+
+# ✅ Other dependencies
+langgraph==0.0.34
+pandas==2.2.2
+numpy==1.26.4
+tqdm

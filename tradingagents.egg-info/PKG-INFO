@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: tradingagents
+Version: 0.1.0
+Summary: Multi-Agents LLM Financial Trading Framework
+Home-page: https://github.com/TauricResearch
+Author: TradingAgents Team
+Author-email: yijia.xiao@cs.ucla.edu
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Financial and Trading Industry
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Office/Business :: Financial :: Investment
+Requires-Python: >=3.10
+License-File: LICENSE
+Requires-Dist: langchain>=0.1.0
+Requires-Dist: langchain-experimental>=0.0.40
+Requires-Dist: numpy>=1.24.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: praw>=7.7.0
+Requires-Dist: stockstats>=0.5.4
+Requires-Dist: yfinance>=0.2.31
+Requires-Dist: typer>=0.9.0
+Requires-Dist: rich>=13.0.0
+Requires-Dist: questionary>=2.0.1
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary

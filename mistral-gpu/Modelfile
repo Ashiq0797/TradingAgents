@@ -1,0 +1,5 @@
+FROM mistral
+
+PARAMETER num_gpu_layers 100
+PARAMETER low_vram false
+PARAMETER f16_kv true

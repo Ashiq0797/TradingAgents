@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+venv*/
+*.keras
+
+# Node.js
+client/node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment
+.env
+
+# Models
+*.h5

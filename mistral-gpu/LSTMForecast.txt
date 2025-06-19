@@ -1,0 +1,93 @@
+import React, { useState } from "react";
+import axios from "axios";
+import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
+
+function LSTMForecast() {
+  const [symbol, setSymbol] = useState("NVDA");
+  const [prediction, setPrediction] = useState(null);
+  const [history, setHistory] = useState([]);
+  const [error, setError] = useState("");
+
+  const handleForecast = async () => {
+    try {
+      const response = await axios.post("http://localhost:5000/lstm_forecast", { symbol });
+      const { forecast, history } = response.data;
+
+      setPrediction(forecast);
+      setHistory(history.map(([date, price]) => ({ date, price })));
+      setError("");
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.error || "Something went wrong");
+      setPrediction(null);
+      setHistory([]);
+    }
+  };
+
+  const handleExport = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/export_csv",
+        { symbol },
+        { responseType: "blob" }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${symbol}_forecast_history.csv`;
+      a.click();
+    } catch (err) {
+      console.error("CSV export failed", err);
+    }
+  };
+
+  return (
+    <div className="container py-4">
+      <h2 className="mb-4">
+        📈 <strong>LSTM Forecast</strong>
+      </h2>
+
+      <div className="d-flex gap-2 mb-3">
+        <input
+          className="form-control"
+          value={symbol}
+          onChange={(e) => setSymbol(e.target.value.toUpperCase())}
+          placeholder="Enter stock symbol"
+          style={{ maxWidth: "200px" }}
+        />
+        <button className="btn btn-success" onClick={handleForecast}>
+          Get LSTM Forecast
+        </button>
+        <button className="btn btn-outline-primary" onClick={handleExport}>
+          📄 Export CSV
+        </button>
+      </div>
+
+      {error && <div className="alert alert-danger">{error}</div>}
+
+      {prediction && (
+        <div className="alert alert-success">
+          Predicted next close price for <strong>{symbol}</strong>: <strong>${prediction.toFixed(2)}</strong>
+        </div>
+      )}
+
+      {history.length > 0 && (
+        <>
+          <h4 className="mt-4 mb-3">📉 Recent 30-Day Close Prices</h4>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={history} margin={{ top: 10, right: 20, bottom: 60, left: 10 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" angle={-45} textAnchor="end" interval={4} height={60} />
+              <YAxis domain={["auto", "auto"]} />
+              <Tooltip />
+              <Line type="monotone" dataKey="price" stroke="#82ca9d" dot />
+            </LineChart>
+          </ResponsiveContainer>
+        </>
+      )}
+    </div>
+  );
+}
+
+export default LSTMForecast;
